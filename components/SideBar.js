@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
+
 const SideBar = (props) => {
+    const navigation = useNavigation();
 
     return(
         <View style={styles.sidebarContainer}>
@@ -12,11 +15,12 @@ const SideBar = (props) => {
                 <Icon name='close' size={30} color={'#AAAFB0'} onPress={props.toggleSidebar}/>
             </View>
             <View style={{marginTop: 40, gap: 15}}>
-                <TouchableOpacity style={styles.sidebarOptions}>
-                    <Text style={styles.sidebarOptionsText}>Favorites</Text>
+
+                <TouchableOpacity style={styles.sidebarOptions} onPress={() => navigation.navigate('home')}>
+                    <Text style={styles.sidebarOptionsText}>Home</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sidebarOptions}>
-                    <Text style={styles.sidebarOptionsText}>Categories</Text>
+                    <Text style={styles.sidebarOptionsText}>Favorites</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sidebarOptions}>
                     <Text style={styles.sidebarOptionsText}>Downloaded</Text>

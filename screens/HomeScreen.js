@@ -6,11 +6,11 @@ import SideBar from '../components/SideBar';
 
 const HomeScreen = () => {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-    
+
     const toggleSidebar = () => {
         setSidebarIsOpen(!sidebarIsOpen);
     }
-    
+
     return(
         <View style={styles.homeScreenContainer}>
             <TopBar toggleSidebar={toggleSidebar}/>
