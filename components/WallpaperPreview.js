@@ -5,13 +5,13 @@ import { useNavigation } from "@react-navigation/native";
 const WallpaperPreview = (props) => {
     const navigation = useNavigation();
 
-    const navigateToWallpaperScreen = (category, wallpaperSource) => {
-        navigation.navigate('wallpaperVisualizer', {category, wallpaperSource})
+    const navigateToWallpaperScreen = (category, wallpaperSource, wallpapers) => {
+        navigation.navigate('wallpaperVisualizer', {category, wallpaperSource, wallpapers})
     }
 
 
     return(
-        <TouchableOpacity style={styles.WallpaperPreviewContainer} onPress={() => navigateToWallpaperScreen(props.category, props.imageSource)}>
+        <TouchableOpacity style={styles.WallpaperPreviewContainer} onPress={() => navigateToWallpaperScreen(props.category, props.imageSource, props.wallpapers)}>
             <Image source={{ uri: props.imageSource }} style={styles.wallpaperPreviewImage}/>
         </TouchableOpacity>
     )

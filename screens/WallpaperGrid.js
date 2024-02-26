@@ -61,7 +61,7 @@ const WallpaperGrid = (props) => {
                 {
                     isLoading ? <Loader/> : (
                         wallpapers.map((wallpaper, index) => (
-                            <WallpaperPreview category={category} imageSource={wallpaper.src.large} key={index}/>
+                            <WallpaperPreview category={category} imageSource={wallpaper.src.portrait} wallpapers={wallpapers} key={index}/>
                         ))
                     )
 
