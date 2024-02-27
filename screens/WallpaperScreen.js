@@ -7,14 +7,14 @@ const WallpaperScreen = (props) => {
     const { category, wallpaperSource, wallpapers } = props.route.params;
     const navigation = useNavigation();
 
-    const [bottomSectionOpacity, setBottomSectionOpacity] = useState(1);
+    const [bottomSectionVisibility, setBottomSectionVisibility] = useState(1);
 
     const handleGoBack = (category) => {
         navigation.navigate('wallpaperGrid', {category})
     }
 
     const hideBottomSection = () => {
-        setBottomSectionOpacity(prevOpacity => prevOpacity === 1 ? 0.0 : 1);
+        setBottomSectionVisibility(!bottomSectionVisibility);
     }
 
     const selectImage = (wallpaperSource) => {
@@ -26,7 +26,7 @@ const WallpaperScreen = (props) => {
     }
 
     const handleSetAsWallpaperButton = () => {
-        
+
     }
 
     return(
@@ -36,13 +36,13 @@ const WallpaperScreen = (props) => {
         </TouchableOpacity>
             <View style={styles.topSection}>
                 <TouchableOpacity style={styles.iconContainer} onPress={() => handleGoBack(category)}>
-                    <Icon name='arrow-back' color={'#000'} size={30} />
+                    <Icon name='arrow-back' color={'white'} size={30} />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.iconContainer}>
-                    <Icon name='favorite' size={30} color={'#000'}/>
+                    <Icon name='favorite' size={30} color={'white'}/>
                 </TouchableOpacity>
             </View>
-            <View style={[styles.bottomSection, {opacity: bottomSectionOpacity}]}>
+            <View style={[styles.bottomSection, {display: bottomSectionVisibility ? 'flex' : 'none'}]}>
                 <View style={styles.wallpaperOptions}>
                     <TouchableOpacity style={[styles.optionsButton, {backgroundColor: '#aaafb09a'}]}>
                         <Text style={styles.optionsText}>Set as wallpaper</Text>
@@ -84,14 +84,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 10
+        paddingHorizontal: 20
     },
     iconContainer:{
      backgroundColor: '#aaafb088', 
      borderRadius: '50%', 
      alignItems: 'center', 
      justifyContent: 'center',
-     padding: 5,
+     padding: 7,
+     opacity: 0.7,
+     shadowColor: '#000',
+     shadowOffset: {
+       width: 1,
+       height: 3,
+     },
+     shadowOpacity: 0.5,
+     shadowRadius: 3.5,
+ 
     },
     bottomSection: {
         width: '100%',
@@ -115,7 +124,14 @@ const styles = StyleSheet.create({
     optionsButton: {
         paddingHorizontal: 10,
         paddingVertical: 12,
-        borderRadius: '50%'
+        borderRadius: '50%',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 2,
+          height: 3,
+        },
+        shadowOpacity: 0.8,
+        shadowRadius: 3.5,
     },
     bottomSimilarScroll: {
         marginTop: 20,

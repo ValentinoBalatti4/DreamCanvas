@@ -11,8 +11,8 @@ const WallpaperPreview = (props) => {
 
 
     return(
-        <TouchableOpacity style={styles.WallpaperPreviewContainer} onPress={() => navigateToWallpaperScreen(props.category, props.imageSource, props.wallpapers)}>
-            <Image source={{ uri: props.imageSource }} style={styles.wallpaperPreviewImage}/>
+        <TouchableOpacity style={styles.WallpaperPreviewContainer} onPress={() => navigateToWallpaperScreen(props.category, props.imageSource.portrait, props.wallpapers)}>
+            <Image source={{ uri: props.imageSource.original }} style={styles.wallpaperPreviewImage}/>
         </TouchableOpacity>
     )
 }
@@ -20,13 +20,13 @@ const WallpaperPreview = (props) => {
 const styles = StyleSheet.create({
     WallpaperPreviewContainer: {
         width: '90%',
-        height: 200,
+        height: 240,
         marginBottom: 10
     },
     wallpaperPreviewImage: {
         width: '100%',
         height: '100%',
-        resizeMode: 'stretch',
+        resizeMode: 'cover',
         borderRadius: 20,
 
     }

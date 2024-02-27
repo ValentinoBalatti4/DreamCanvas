@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import TopBar from '../components/TopBar';
 import SideBar from '../components/SideBar';
 
-import { createClient } from 'pexels';
+import fetchImages from '../utils/apiCalls'
 import WallpaperPreview from '../components/WallpaperPreview';
 import Loader from '../components/Loader';
 
@@ -12,22 +12,6 @@ const WallpaperGrid = (props) => {
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);    
     const [wallpapers, setWallpapers] = useState([]);
     const [isLoading ,setIsLoading] = useState(false);
-    
-    const pexelsClient = createClient('FL2dxlrKiFxD7bUixuYfDzuEtCfsW9hPXfg748zfKGO79bZ12f2m1PpH');
-    const fetchImages = async (category, page = 1, perPage = 20) => {
-        try {
-          const response = await pexelsClient.photos.search({
-            query: category,
-            page,
-            per_page: perPage,
-          });
-      
-          return response.photos;
-        } catch (error) {
-          console.error('Error fetching images:', error);
-          // Handle errors appropriately
-        }
-    };
     
     useEffect(() => {
         const fetchInitialImages = async () => {
@@ -48,20 +32,28 @@ const WallpaperGrid = (props) => {
     const toggleSidebar = () => {
         setSidebarIsOpen(!sidebarIsOpen);
     }
-
+    
     return (
         <View style={styles.wallpaperGridPage}>
             <TopBar toggleSidebar={toggleSidebar}/>
             { sidebarIsOpen && <SideBar toggleSidebar={toggleSidebar}/> }
             <ScrollView contentContainerStyle={styles.wallpapersGridContainer}>
-                <View style={styles.titleContainer}>
-                    <Image source={{ uri: categoryImg }} style={{width: '100%', height: '100%', borderRadius: 15, resizeMode: 'stretch', opacity: 0.6}}/>
-                    <Text style={{color: '#dadada',fontSize: 26, fontWeight: 700 , position: 'absolute', letterSpacing: 2}}>{category}</Text>
-                </View>
+                {
+                    categoryImg !== undefined ? (
+                      <View style={styles.titleContainer}>
+                        <Image source={{ uri: categoryImg }} style={{width: '100%', height: '100%', borderRadius: 15, resizeMode: 'stretch', opacity: 0.6}}/>
+                        <Text style={{color: '#dadada',fontSize: 26, fontWeight: 700 , position: 'absolute', letterSpacing: 2}}>{category}</Text>
+                    </View>
+                    ) : (
+                        <View style={{width: '80%'}}>
+                            <Text style={{color: '#AAAFB0', fontSize: 24, fontWeight: 600, textAlign: 'left'}}>{category}</Text>
+                        </View>
+                    )
+                }
                 {
                     isLoading ? <Loader/> : (
                         wallpapers.map((wallpaper, index) => (
-                            <WallpaperPreview category={category} imageSource={wallpaper.src.portrait} wallpapers={wallpapers} key={index}/>
+                            <WallpaperPreview category={category} imageSource={wallpaper.src} wallpapers={wallpapers} key={index}/>
                         ))
                     )
 
@@ -81,6 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#121212',
         width: '100%',
         alignItems: 'center',
+        justifyContent: 'center',
         gap: 10
     },
     titleContainer: {

@@ -16,6 +16,8 @@
     "pexels": "^1.4.0",
     "react": "18.2.0",
     "react-native": "0.73.4",
+    "react-native-fs": "^2.20.0",
+    "react-native-modal": "^13.0.1",
     "react-native-reanimated": "^3.7.1",
     "react-native-vector-icons": "^10.0.3"
   },
