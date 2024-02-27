@@ -20,10 +20,10 @@ const TopBar = (props) => {
     return(
         <View style={styles.topbarContainer}>
             {/* <Icon name='menu' size={30} color={'#AAAFB0'} onPress={props.toggleSidebar}/> */}
-            <TouchableOpacity activeOpacity={0.6}>
+            <TouchableOpacity activeOpacity={0.6} onPress={() => navigation.navigate('favoritesScreen')}>
                 <Icon name='favorite' size={30} color={'#AAAFB0'}/>
             </TouchableOpacity>
-            <Text style={styles.title} onPress={() => navigation.navigate("home")}>WallPapers App</Text>
+            <Text style={styles.title} onPress={() => navigation.navigate("home")}>DreamCanvas</Text>
             <Icon name={'search'} size={30} color={'#AAAFB0'} onPress={toggleSearchBox}/>
             <Modal
                 animationIn={"slideInRight"}

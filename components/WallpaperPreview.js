@@ -9,9 +9,8 @@ const WallpaperPreview = (props) => {
         navigation.navigate('wallpaperVisualizer', {category, wallpaperSource, wallpapers})
     }
 
-
     return(
-        <TouchableOpacity style={styles.WallpaperPreviewContainer} onPress={() => navigateToWallpaperScreen(props.category, props.imageSource.portrait, props.wallpapers)}>
+        <TouchableOpacity style={styles.WallpaperPreviewContainer} onPress={() => navigateToWallpaperScreen(props.category, props.imageSource, props.wallpapers)}>
             <Image source={{ uri: props.imageSource.original }} style={styles.wallpaperPreviewImage}/>
         </TouchableOpacity>
     )

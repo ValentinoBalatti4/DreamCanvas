@@ -57,7 +57,7 @@ const HomeScreen = () => {
                     data={wallpapers}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
-                        <TouchableOpacity style={{width: 120, height: 200}} onPress={() => selectImage(item.src.portrait)}>
+                        <TouchableOpacity style={{width: 120, height: 200}} onPress={() => selectImage(item.src)}>
                             <Image source={{ uri: item.src.portrait }} style={{height: '100%', width: '100%', borderRadius: 13}}/>
                         </TouchableOpacity>
                     )}

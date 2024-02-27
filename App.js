@@ -7,6 +7,7 @@ const Stack = createNativeStackNavigator();
 import HomeScreen from './screens/HomeScreen';
 import WallpaperGrid from './screens/WallpaperGrid';
 import WallpaperScreen from './screens/WallpaperScreen';
+import FavoritesScreen from './screens/FavoritesScreen';
 
 export default function App() {
 
@@ -16,6 +17,7 @@ export default function App() {
         <Stack.Screen name='home' component={HomeScreen}/>
         <Stack.Screen name='wallpaperGrid' component={WallpaperGrid}/>
         <Stack.Screen name='wallpaperVisualizer' component={WallpaperScreen}/>
+        <Stack.Screen name='favoritesScreen' component={FavoritesScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
