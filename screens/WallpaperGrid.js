@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Image, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, FlatList, ActivityIndicator, VirtualizedList } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import TopBar from '../components/TopBar';
 import SideBar from '../components/SideBar';
@@ -61,28 +61,31 @@ const WallpaperGrid = (props) => {
         <View style={styles.wallpaperGridPage}>
             <TopBar toggleSidebar={toggleSidebar}/>
             { sidebarIsOpen && <SideBar toggleSidebar={toggleSidebar}/> }
-            <FlatList 
-                data={wallpapers}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index}) => (
-                    <WallpaperPreview category={category} imageSource={item.src} wallpapers={wallpapers}/>
-                )}
-                contentContainerStyle={styles.wallpapersGridContainer}
-                onEndReached={fetchMoreImages}
-                onEndReachedThreshold={0.1}
-            />
-                {/* {
-                    categoryImg !== undefined ? (
-                      <View style={styles.titleContainer}>
-                        <Image source={{ uri: categoryImg }} style={{width: '100%', height: '100%', borderRadius: 15, resizeMode: 'stretch', opacity: 0.6}}/>
-                        <Text style={{color: '#dadada',fontSize: 26, fontWeight: 700 , position: 'absolute', letterSpacing: 2}}>{category}</Text>
-                    </View>
-                    ) : (
-                        <View style={{width: '80%'}}>
-                            <Text style={{color: '#AAAFB0', fontSize: 24, fontWeight: 600, textAlign: 'left'}}>{category}</Text>
-                        </View>
-                    )
-                } */}
+
+                <FlatList 
+                    data={wallpapers}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item, index}) => (
+                        <WallpaperPreview category={category} imageSource={item.src} wallpapers={wallpapers}/>
+                    )}
+                    contentContainerStyle={styles.wallpapersGridContainer}
+                    onEndReached={fetchMoreImages}
+                    onEndReachedThreshold={0.1}
+                    ListHeaderComponent={() => 
+                        (
+                            categoryImg !== undefined ? (
+                            <View style={styles.titleContainer}>
+                                <Image source={{ uri: categoryImg }} style={{width: '100%', height: '100%', borderRadius: 15, resizeMode: 'stretch', opacity: 0.6}}/>
+                                <Text style={{color: '#dadada',fontSize: 26, fontWeight: 700 , position: 'absolute', letterSpacing: 2}}>{category}</Text>
+                            </View>
+                            ) : (
+                                <View style={{width: '80%'}}>
+                                    <Text style={{color: '#AAAFB0', fontSize: 24, fontWeight: 600, textAlign: 'left'}}>{category}</Text>
+                                </View>
+                            )
+                        )}
+                >
+                </FlatList>
 
         </View>
     )
@@ -104,7 +107,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 20,
-        gap: 10
+        gap: 10,
+        marginBottom: 15
     }
 })
 
