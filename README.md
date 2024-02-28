@@ -7,7 +7,8 @@ DreamCanvas is an immersive wallpaper app that transforms your device into a can
 ## Screenshots
 
 ### Home Screen
-![Home Screen](./assets/screenshots/homeScreen.png)
+<img src="./assets/screenshots/homeScreen.png" alt="Wallpaper Preview 1" width="300px" height='600px'/>
+
 *Description: The main screen of DreamCanvas, showcasing the beautiful popular wallpapers, and some incredible categories.*
 
 ### Wallpaper Preview
@@ -18,7 +19,7 @@ DreamCanvas is an immersive wallpaper app that transforms your device into a can
 *Description: Previewing a selected wallpaper before setting it as the device background.*
 
 ### Categories
-![Categories](./assets/screenshots/categories.png)
+<img src="./assets/screenshots/categorySearch.png" alt="Wallpaper Preview 1" width="300px" height='600px'/>
 *Description: Explore a variety of images according to the category your interested in.*
 
 
