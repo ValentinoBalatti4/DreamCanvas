@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TopBar from '../components/TopBar';
+import Loader from '../components/Loader';
 import WallpaperPreview from '../components/WallpaperPreview';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const FavoritesScreen = () => {
     const [likedWallpapers, setLikedWallpapers] = useState([]);
@@ -11,8 +11,6 @@ const FavoritesScreen = () => {
     useEffect(() => {
         loadLikedWallpapers();
     },[])
-
-
 
     const loadLikedWallpapers = async () => {
         try{
@@ -26,25 +24,25 @@ const FavoritesScreen = () => {
     }
 
     return (
-        <View style={styles.screenContainer}>
-            <TopBar/>
-            <ScrollView contentContainerStyle={styles.scrollableContent}>
-                <View style={{width: '100%', alignItems: 'left', paddingLeft: 20}}>
-                    <Text style={{color: '#AAAFB0', fontSize: 22, fontWeight: 600}}>Favorites</Text>
-                </View>
-                {
-                    likedWallpapers.length === 0 ? 
-                        <View style={{height: '100%', justifyContent: 'center', alignItems: 'center'}}>
-                            <Text style={{color: '#AAAFB0', fontSize: 20}}>No liked wallpapers yet</Text>
-                        </View>
-                    :
+            <View style={styles.screenContainer}>
+                <TopBar/>
+                <ScrollView contentContainerStyle={styles.scrollableContent}>
+                    <View style={{width: '100%', alignItems: 'left', paddingLeft: 20}}>
+                        <Text style={{color: '#AAAFB0', fontSize: 22, fontWeight: 600}}>Favorites</Text>
+                    </View>
+                    {
+                        likedWallpapers.length === 0 ? 
+                            <View style={{height: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                                <Text style={{color: '#AAAFB0', fontSize: 20}}>No liked wallpapers yet</Text>
+                            </View>
+                        :
 
-                    likedWallpapers.map((wallpaper, index) => (
-                        <WallpaperPreview category={'favorites'} imageSource={wallpaper.src} wallpapers={likedWallpapers} key={index}/>
-                    ))
-                }
-            </ScrollView>
-        </View>
+                        likedWallpapers.map((wallpaper, index) => (
+                            <WallpaperPreview category={'favorites'} imageSource={wallpaper.src} wallpapers={likedWallpapers} setLikedWallpapers={setLikedWallpapers} key={index}/>
+                        ))
+                    }
+                </ScrollView>
+            </View>    
     )
 }
 

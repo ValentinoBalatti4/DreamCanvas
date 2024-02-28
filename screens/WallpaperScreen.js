@@ -30,7 +30,7 @@ const WallpaperScreen = (props) => {
 
             if (likedWallpapers) {
                 const parsedLikedWallpapers = JSON.parse(likedWallpapers);
-                const isLiked = parsedLikedWallpapers.some((wallpaper) => wallpaper.src === wallpaperSource);   
+                const isLiked = parsedLikedWallpapers.some((wallpaper) => wallpaper.src.original === wallpaperSource.original);   
                 setIsLiked(isLiked);
             }
         } catch (error) {
@@ -47,7 +47,7 @@ const WallpaperScreen = (props) => {
                 updatedLikedWallpapers = JSON.parse(likedWallpapers);
 
                 if(liked){
-                    updatedLikedWallpapers = updatedLikedWallpapers.filter((wallpaper) => wallpaper.src !== wallpaperSource);
+                    updatedLikedWallpapers = updatedLikedWallpapers.filter((wallpaper) => wallpaper.src.original !== wallpaperSource.original);
                 }else{
                     updatedLikedWallpapers.push({ src: wallpaperSource });
                 }
@@ -57,6 +57,9 @@ const WallpaperScreen = (props) => {
         
             await AsyncStorage.setItem('likedWallpapers', JSON.stringify(updatedLikedWallpapers));
             setIsLiked(!liked);
+            if(props.setLikedWallpapers){
+                setLikedWallpapers(updatedLikedWallpapers);
+            }
         }catch(error){
             console.log('Error handling like button: ', error)
         }
@@ -75,9 +78,9 @@ const WallpaperScreen = (props) => {
     }
 
     const handleSetAsWallpaperButton = () => {
-
+   
     }
-    console.log(wallpaperSource)
+
     return(
         <View style={styles.wallpaperScreenContainer}>
         <TouchableOpacity activeOpacity={0.9} onPress={hideBottomSection}>
@@ -93,7 +96,7 @@ const WallpaperScreen = (props) => {
             </View>
             <View style={[styles.bottomSection, {display: bottomSectionVisibility ? 'flex' : 'none'}]}>
                 <LinearGradient
-                    colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.6)']}
+                    colors={['rgba(0, 0, 0, 1)', 'rgba(0, 0, 0, 0.2)']}
                     start={{ x: 0, y: 1 }}
                     end={{ x: 0, y: 0 }}
                     style={styles.bottomSectionGradient}
@@ -165,7 +168,7 @@ const styles = StyleSheet.create({
         bottom: 0,
     },
     bottomSectionGradient: {flex: 1,
-        borderRadius: 10,
+        borderRadius: 30,
         paddingTop: 10
     },
     wallpaperOptions: {

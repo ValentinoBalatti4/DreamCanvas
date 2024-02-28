@@ -19,8 +19,8 @@ const CategoryCard = (props) => {
 
 const styles = StyleSheet.create({
     categoryContainer: {
-        width: '100%',
-        height: 140,
+        width: '90%',
+        height: 160,
         alignItems: 'center',
         justifyContent: 'center',
     },
