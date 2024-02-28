@@ -11,6 +11,8 @@ const WallpaperGrid = (props) => {
     const { category, categoryImg } = props.route.params;
     const [sidebarIsOpen, setSidebarIsOpen] = useState(false);    
     const [wallpapers, setWallpapers] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [nextPageAvailable, setNextPageAvailable] = useState(true);
     const [isLoading ,setIsLoading] = useState(false);
     
     useEffect(() => {
@@ -29,6 +31,28 @@ const WallpaperGrid = (props) => {
         fetchInitialImages();
       }, [category]);
 
+      const fetchMoreImages = async () => {
+        if (!nextPageAvailable || isLoading) {
+            return;
+        }
+        setIsLoading(true);
+        try {
+            const nextPage = currentPage + 1;
+            setCurrentPage(nextPage);
+            const moreImages = await fetchImages(category, nextPage);  // Fetch more images for the next page
+            if (moreImages.length > 0) {
+                setWallpapers((prevWallpapers) => [...prevWallpapers, ...moreImages]);
+                setCurrentPage(nextPage);
+            } else {
+                setHasMoreData(false);  // No more data available
+            }
+        } catch (error) {
+            console.error('Error fetching more images:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const toggleSidebar = () => {
         setSidebarIsOpen(!sidebarIsOpen);
     }
@@ -37,8 +61,17 @@ const WallpaperGrid = (props) => {
         <View style={styles.wallpaperGridPage}>
             <TopBar toggleSidebar={toggleSidebar}/>
             { sidebarIsOpen && <SideBar toggleSidebar={toggleSidebar}/> }
-            <ScrollView contentContainerStyle={styles.wallpapersGridContainer}>
-                {
+            <FlatList 
+                data={wallpapers}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item, index}) => (
+                    <WallpaperPreview category={category} imageSource={item.src} wallpapers={wallpapers}/>
+                )}
+                contentContainerStyle={styles.wallpapersGridContainer}
+                onEndReached={fetchMoreImages}
+                onEndReachedThreshold={0.1}
+            />
+                {/* {
                     categoryImg !== undefined ? (
                       <View style={styles.titleContainer}>
                         <Image source={{ uri: categoryImg }} style={{width: '100%', height: '100%', borderRadius: 15, resizeMode: 'stretch', opacity: 0.6}}/>
@@ -49,16 +82,8 @@ const WallpaperGrid = (props) => {
                             <Text style={{color: '#AAAFB0', fontSize: 24, fontWeight: 600, textAlign: 'left'}}>{category}</Text>
                         </View>
                     )
-                }
-                {
-                    isLoading ? <Loader/> : (
-                        wallpapers.map((wallpaper, index) => (
-                            <WallpaperPreview category={category} imageSource={wallpaper.src} wallpapers={wallpapers} key={index}/>
-                        ))
-                    )
+                } */}
 
-                }
-            </ScrollView>
         </View>
     )
 }
@@ -67,14 +92,11 @@ const styles = StyleSheet.create({
     wallpaperGridPage: {
         flex: 1,
         backgroundColor: '#121212',
-
     },
     wallpapersGridContainer: {
-        backgroundColor: '#121212',
         width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 10
+        marginHorizontal: '5%'
+
     },
     titleContainer: {
         width: '90%',
