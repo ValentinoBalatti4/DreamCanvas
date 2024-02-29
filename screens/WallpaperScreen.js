@@ -84,16 +84,20 @@ const WallpaperScreen = (props) => {
             }
 
             const { uri } = await FileSystem.downloadAsync(wallpaperSource.portrait, FileSystem.documentDirectory + 'wallpaper.png');
-
             const asset = await MediaLibrary.createAssetAsync(uri);
-            const album = await MediaLibrary.createAlbumAsync('DreamCanvas', asset);
-            
+
+            const albumExists = await MediaLibrary.getAlbumAsync('DreamCanvas');
+            if(!albumExists){
+                await MediaLibrary.createAlbumAsync('DreamCanvas');
+            }
+            const album = await MediaLibrary.getAlbumAsync('DreamCanvas');
+
+            await MediaLibrary.addAssetsToAlbumAsync(asset, album)
+
             await FileSystem.deleteAsync(FileSystem.documentDirectory + 'wallpaper.png')
         
-            console.log('Wallpaper saved to gallery:', asset);
             alert('Wallpaper saved successfully!');
           } catch (error) {
-            console.error('Error saving wallpaper:', error);
             alert('Failed to save wallpaper. Please try again.');
           }
     };
