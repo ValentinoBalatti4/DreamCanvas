@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import * as MediaLibrary from 'expo-media-library';
+import * as FileSystem from 'expo-file-system';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LinearGradient} from 'expo-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -73,9 +75,29 @@ const WallpaperScreen = (props) => {
         navigation.navigate('wallpaperVisualizer', {category, wallpaperSource, wallpapers})
     }
 
-    const handleDownloadButton = () => {
+    const handleDownloadButton = async () => {
+        try {
+            const { status } = await MediaLibrary.requestPermissionsAsync();
+            if (status !== 'granted') {
+              alert('Sorry, we need camera roll permissions to save the image');
+              return;
+            }
 
-    }
+            const { uri } = await FileSystem.downloadAsync(wallpaperSource.portrait, FileSystem.documentDirectory + 'wallpaper.png');
+
+            const asset = await MediaLibrary.createAssetAsync(uri);
+            const album = await MediaLibrary.createAlbumAsync('DreamCanvas', asset);
+            
+            await FileSystem.deleteAsync(FileSystem.documentDirectory + 'wallpaper.png')
+        
+            console.log('Wallpaper saved to gallery:', asset);
+            alert('Wallpaper saved successfully!');
+          } catch (error) {
+            console.error('Error saving wallpaper:', error);
+            alert('Failed to save wallpaper. Please try again.');
+          }
+    };
+    
 
     const handleSetAsWallpaperButton = () => {
    
@@ -105,7 +127,7 @@ const WallpaperScreen = (props) => {
                         <TouchableOpacity style={[styles.optionsButton, {backgroundColor: '#aaafb09a'}]}>
                             <Text style={styles.optionsText}>Set as wallpaper</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.optionsButton, {backgroundColor: '#1d9ed5d5'}]}>
+                        <TouchableOpacity style={[styles.optionsButton, {backgroundColor: '#1d9ed5d5'}]} onPress={() => handleDownloadButton()}>
                             <Text style={styles.optionsText}>Download</Text>
                         </TouchableOpacity>
                     </View>
