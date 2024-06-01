@@ -38,4 +38,4 @@ DreamCanvas is an immersive wallpaper app that transforms your device into a can
 - **Dreamy Preview:** Preview wallpapers in a dreamlike setting before setting them as your device background.
 
 ## To-do
-- [ ] Set as Wallpaper funtionality
+- [x] Set as Wallpaper funtionality
